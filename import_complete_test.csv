@@ -1,0 +1,20 @@
+,Passenger Name,EMAIL,Rm #,Arr. Date,Dept. Date,# Nts,Rm Category,Remarks/special requests,Arrival Info.,Dept. Info.,Gross Rate,CFAR & TPP,Net Group Air Rate,Air booking number,Bridal party,Deposit amount,Deposit Date,Address,Phone,Hotel Package Name,Travel Dates,Num. guests,Guests Names,"All Room 
+Guest Names",# of Nights,"Resort Rate 
+Per Night","Resort 
+Package Cost "," Airfare Cost
+""if reserved""","Guest 
+(Resort + Airfare) Cost",Guest Balance,"Total Room 
+Deposit","Total Room 
+Airfare Cost","Total Room 
+Resort Cost","Total Room 
+(Resort + Airfare) 
+Cost",Total Room Balance,INVOICE STATUS,INVOICE #,NY FLIGHT STATUS,,INCLUDE PACKAGE RATES FOR,** INVOICE STATUS,PAYMENT 1,PAYMENT 2,PAYMENT 3,PAYMENT 4,PAYMENT 5,PAYMENT 6,PAYMENT 7,PAYMENT 8,PAYMENT 9,PAYMENT 10,PAYMENT 11,PAYMENT12,CURRENT BALANCE,,RESORT PACKAGE,TRAVEL DATES,ROOM GUESTS,TOTAL,NUMBER OF GUESTS,NUMBER OF CHILDREN,RESORT TOTAL FOR CHILDREN,RESORT TOTAL FOR ALL ADULT GUESTS,RESORT TOTAL FOR ALL GUESTS,AIRPORT TRANSFER TOTAL FOR ALL GUESTS,INVOICE TOTAL,RESORT RATE PER GUEST PER NIGHT,NUMBER OF NIGHTS,RESORT TOTAL PER GUEST
+,,,,,,,,,,,,,,,,Q8,R8,S8,T8,V8,V8,W8,X8,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+6,Jamilah Lemieux,yesthatjamilah@gmail.com,3,11/2/2017,11/6/2017,4,2 - Diamond - Double,,FLT INFO REQ'D,FOR TRANSFER,$940 ,,,,,$100 ,3/17/2017,"684A Hancock Street
+Brooklyn, NY 11233",Jamilah,Diamond Club Luxury Junior Suite,11/2/2017 - 11/6/2017,2,Donte Miller,"Donte Miller
+Jamilah Lemieux",4,$237.12 ,$948.48 ,390,"$1,338.48 ","$1,238.48 ",$100 ,780,"$1,896.96 ",2676.96,"$2,577 ",all,103,11/2 - 11/6 - 6,,,all,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+7,Donte miller,#N/A,3,11/2/2017,11/6/2017,4,2 - Diamond - Double,,FLT INFO REQ'D,FOR TRANSFER,$940 ,,,,,0,3/17/2017,"684A Hancock Street
+Brooklyn, NY 11233",#N/A,Diamond Club Luxury Junior Suite,11/2/2017 - 11/6/2017,2,Jamilah Lemieux,"Donte Miller
+Jamilah Lemieux",4,$237.12 ,$948.48 ,390,"$1,338.48 ","$1,338.48 ",$100 ,390,$948.48 ,1338.48,"$1,238 ",,,11/2 - 11/6 - 7,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

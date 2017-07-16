@@ -1,0 +1,562 @@
+<?php global $wpo_wcpdf;?>
+/* Main Body */
+@font-face {
+	font-family: 'Open Sans';
+	font-style: normal;
+	font-weight: normal;
+	src: local('Open Sans'), local('OpenSans'), url(http://themes.googleusercontent.com/static/fonts/opensans/v7/yYRnAC2KygoXnEC8IdU0gQLUuEpTyoUstqEm5AMlJo4.ttf) format('truetype');
+}
+@font-face {
+	font-family: 'Open Sans';
+	font-style: normal;
+	font-weight: bold;
+	src: local('Open Sans Bold'), local('OpenSans-Bold'), url(http://themes.googleusercontent.com/static/fonts/opensans/v7/k3k702ZOKiLJc3WVjuplzMDdSZkkecOE1hvV7ZHvhyU.ttf) format('truetype');
+}
+@font-face {
+	font-family: 'Open Sans';
+	font-style: italic;
+	font-weight: normal;
+	src: local('Open Sans Italic'), local('OpenSans-Italic'), url(http://themes.googleusercontent.com/static/fonts/opensans/v7/O4NhV7_qs9r9seTo7fnsVCZ2oysoEQEeKwjgmXLRnTc.ttf) format('truetype');
+}
+@font-face {
+	font-family: 'Open Sans';
+	font-style: italic;
+	font-weight: bold;
+	src: local('Open Sans Bold Italic'), local('OpenSans-BoldItalic'), url(http://themes.googleusercontent.com/static/fonts/opensans/v7/PRmiXeptR36kaC0GEAetxrQhS7CD3GIaelOwHPAPh9w.ttf) format('truetype');
+}
+
+@page {
+	margin-top: 1cm;
+	margin-bottom: 3cm;
+	margin-left: 2cm;
+	margin-right: 2cm;
+}
+body {
+	background: #fff;
+	color: #000;
+	margin: 0cm;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 9pt;
+	line-height: 100%; /* fixes inherit dompdf bug */
+}
+
+h1, h2, h3, h4 {
+	font-weight: bold;
+	margin: 0;
+}
+
+h1 {
+	font-size: 16pt;
+	margin: 5mm 0;
+}
+
+h2 {
+	font-size: 14pt;
+}
+
+h3, h4 {
+	font-size: 9pt;
+}
+
+
+ol,
+ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+li,
+ul {
+	margin-bottom: 0.75em;
+}
+
+p {
+	margin: 0;
+	padding: 0;
+}
+
+p + p {
+	margin-top: 1.25em;
+}
+
+a { 
+	border-bottom: 1px solid; 
+	text-decoration: none; 
+}
+
+/* Basic Table Styling */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	page-break-inside: always;
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+th, td {
+	vertical-align: top;
+	text-align: left;
+}
+
+table.container {
+	width:100%;
+	border: 0;
+}
+
+tr.no-borders,
+td.no-borders {
+	border: 0 !important;
+	border-top: 0 !important;
+	border-bottom: 0 !important;
+	padding: 0 !important;
+	width: auto;
+}
+
+/* Header */
+table.head {
+	margin-bottom: 12mm;
+}
+
+td.header img {
+	max-height: 3cm;
+	width: auto;
+}
+
+/*
+td.header {
+	font-size: 16pt;
+	font-weight: 700;
+}
+*/
+
+
+td.shop-info {
+	width: 40%;
+}
+.document-type-label {
+	text-transform: uppercase;
+}
+
+/* Recipient addressses & order data */
+table.order-data-addresses {
+	width: 100%;
+	margin-bottom: 10mm;
+}
+
+td.order-data {
+	width: 40%;
+}
+
+.invoice .shipping-address {
+	width: 30%;
+}
+
+.packing-slip .billing-address {
+	width: 30%;
+}
+
+td.order-data table th {
+	font-weight: normal;
+	padding-right: 2mm;
+}
+
+/* Order details */
+table.order-details {
+	width:100%;
+	margin-bottom: 8mm;
+}
+
+.quantity,
+.price {
+	width: 20%;
+}
+
+.order-details tr {
+	page-break-inside: always;
+	page-break-after: auto;	
+}
+
+.order-details td,
+.order-details th {
+	border-bottom: 1px #ccc solid;
+	border-top: 1px #ccc solid;
+	padding: 0.375em;
+}
+
+.order-details th {
+	font-weight: bold;
+	text-align: left;
+}
+
+.order-details thead th {
+	color: white;
+	background-color: black;
+	border-color: black;
+}
+
+/* product bundles compatibility */
+.order-details tr.bundled-item td.product {
+	padding-left: 5mm;
+}
+
+.order-details tr.product-bundle td,
+.order-details tr.bundled-item td {
+	border: 0;
+}
+
+
+/* item meta formatting for WC2.6 and older */
+dl {
+	margin: 4px 0;
+}
+
+dt, dd, dd p {
+	display: inline;
+	font-size: 7pt;
+	line-height: 7pt;
+}
+
+dd {
+	margin-left: 5px;
+}
+
+dd:after {
+	content: "\A";
+	white-space: pre;
+}
+/* item-meta formatting for WC3.0+ */
+.wc-item-meta {
+	margin: 4px 0;
+	font-size: 7pt;
+	line-height: 7pt;
+}
+.wc-item-meta p {
+	display: inline;
+}
+.wc-item-meta li {
+	margin: 0;
+	margin-left: 5px;
+}
+
+/* Notes & Totals */
+.customer-notes {
+	margin-top: 5mm;
+}
+
+table.totals {
+	width: 100%;
+	margin-top: 5mm;
+}
+
+table.totals th,
+table.totals td {
+	border: 0;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+
+table.totals th.description,
+table.totals td.price {
+	width: 50%;
+}
+
+table.totals tr.order_total td,
+table.totals tr.order_total th {
+	border-top: 2px solid #000;
+	border-bottom: 2px solid #000;
+	font-weight: bold;
+}
+
+table.totals tr.payment_method {
+	display: none;
+}
+
+/* Footer Imprint */
+#footer {
+	position: absolute;
+	bottom: -2cm;
+	left: 0;
+	right: 0;
+	height: 2cm; /* if you change the footer height, don't forget to change the bottom (=negative height) and the @page margin-bottom as well! */
+	text-align: center;
+	border-top: 0.1mm solid gray;
+	margin-bottom: 0;
+	padding-top: 2mm;
+}
+
+/* page numbers */
+.pagenum:before {
+	content: counter(page);
+}
+.pagenum,.pagecount {
+	font-family: sans-serif;
+}
+/***************/
+/* RICH CUSTOM */
+/***************/
+
+.clearfix:before,
+.clearfix:after {
+  content: "";
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+.clearfix {
+  zoom: 1; /* ie 6/7 */
+}
+
+th{
+        line-height: 16px;
+}
+
+hr{
+    margin: 15px 0px;
+}
+div.invoice-wrapper{
+    width:700px;
+    margin:0 auto;
+    margin-bottom: 30px;
+}
+
+.bg-color-primary{
+    background-color: #b88e52;
+}
+.bg-color-primary{
+    background-color: #b88e52;
+}
+
+.bg-color-secondary{
+    background-color: #999999;
+}
+table.invoice-info-bar{
+    height: 25px;
+    width: 100%;
+    margin-bottom: 10px;
+    
+}
+
+table.invoice-info-bar td:first-of-type, table.invoice-notes-table th:first-of-type, table.invoice-instructions-table th:first-of-type{
+    padding-left: 5px;
+}
+
+table.invoice-notes-table td:first-of-type, table.invoice-instructions-table td:first-of-type{
+    padding-left: 15px;
+}
+td.header {
+	font-size: 12px;
+    padding-top: 10px;
+    padding-left: 5px;
+}
+
+table.head{
+    margin-bottom:5px;
+}
+
+.float-right{
+    float: right;
+}
+
+    
+table#invoice-top-info-bar {
+
+    
+
+}
+
+table.invoice-info-bar td{
+    font-size: 14px; color:white;
+    font-weight:bold;
+    vertical-align: middle;
+}
+    
+td#invoice-num-label-cell {
+    width: 15%;
+}
+
+td#invoice-num-cell {
+    width: 60%;
+}
+
+/* BILL TO INFO BAR STYLES */
+
+table#invoice-bill-to-info-bar {
+    background-color: #666666;
+    margin-bottom:5px;
+}
+
+table#invoice-bill-to-info-bar td:last-of-type {
+   font-size: 12px;
+    padding-right: 5px;
+}
+#bill-to-label-cell, td.billing-address{
+    width: 65%;
+}
+
+#invoice-bill-to-info-table{
+    width:100%;
+    margin-bottom: 20px;
+}
+td.billing-address{
+    padding-left: 25px; 
+}
+
+td.invoice-includes-info{
+    text-align: center;
+}
+
+/* LARGE INFO TABLE WRAPPER STYLES */
+table.invoice-large-info-table-wrapper {
+    width:100%;
+    
+}
+table.invoice-large-info-table-wrapper td{
+    width:50%;
+    
+}
+
+/* LARGE INFO TABLE STYLES */
+
+table.invoice-large-info-table, table.due-date-info-table{
+   
+    width: 320px;
+    
+}
+
+table.invoice-large-info-table{
+    border-width: 2px;
+    border-color: black;
+    border-style: solid;
+}
+
+table.invoice-large-info-table th {
+    color: white;
+    text-align: center;
+    font-size: 14px;
+    padding: 3px;
+
+}
+
+table.invoice-large-info-table td {
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+    text-align: center;
+    padding-top:3px;
+    padding-bottom:3px;
+}
+/* INVOICE MAIN SECTION TBL STYLES */
+
+#invoice-main-tbl{
+    margin-bottom:20px;
+}
+#invoice-main-tbl table.invoice-large-info-table{
+    margin-bottom:5px;
+}
+
+table#invoice-balance-tbl, table#travel-details-tbl{
+    margin-bottom: 15px;
+    font-size: 11px;
+}
+
+.info-table-sub-text{
+    text-align: right;
+    margin-bottom: 15px;
+    
+}
+table#invoice-main-tbl .info-table-sub-text{
+       padding-right: 30px;
+}
+
+table.due-date-info-table{
+    background-color: #d9ead3;
+    line-height: 15px;
+    font-weight: bold;
+}
+
+table.due-date-info-table tr:first-of-type {
+    border-bottom: solid black 1px;
+}
+table.due-date-info-table td {
+    text-align:center;
+}
+table.invoice-notes-table th, table.invoice-instructions-table th {
+    font-size: 14px;
+}
+
+
+#total-package-breakdown-tbl th, #per-guest-breakdown th {
+    line-height: 14px;
+    vertical-align: middle;
+    
+}
+#total-package-breakdown-tbl td, #per-guest-breakdown td{
+    line-height: 14px;
+    vertical-align: middle;
+    
+}
+
+table#per-guest-breakdown th{
+    
+    width: 75%;
+}
+
+/* PAYMENT SCHEDULE ROW STYLES FLOAT RIGHT */
+/*#pmt-sch-row td:last-of-type{
+    text-align: right;
+}
+
+#travel-details-tbl{
+    display:inline-block;
+}*/
+
+/* BALANCE DUE ROW STYLES FLOAT RIGHT */
+/*
+#bal-due-row td:last-of-type{
+    text-align: right;
+}
+
+table.due-date-info-table {
+    display:inline-block;
+}
+*/
+.pad-to-right{
+    padding-left: 30px;
+}
+
+/* INVOICE BALANCE TABLE STYLES */
+#invoice-balance-tbl{
+    height:35px;
+}
+#invoice-balance-tbl td:first-of-type{
+   vertical-align:middle;
+    font-weight: bold;
+    font-size:14px;
+    line-height: 16px;
+}
+#invoice-balance-tbl td:last-of-type{
+   vertical-align:middle;
+    font-weight: bold;
+    font-size:12px;
+    line-height: 16px;
+}
+
+.invoice-includes-info{
+        border: black 1px solid;
+    border-top-width: 0px;
+    border-left-width: 0px;
+}
+
+.invoice-notes-table {
+    color: red;
+}
+
+.invoice-text-section th{
+    height:20px;
+    color: black;
+}
