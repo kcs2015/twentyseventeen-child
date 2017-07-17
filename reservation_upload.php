@@ -1,7 +1,13 @@
 <?php /* Template Name: Reservation Upload */ 
 
 
-get_header(); ?>
+get_header();
+
+/* START UPLOAD */
+//$upload_file_name = 'guest_reservation_import.csv';
+$upload_file_name = 'guest_reservation_import-part2.csv';
+
+?>
 
 <div class="wrap">
 	<div id="primary" class="content-area">
@@ -11,7 +17,7 @@ get_header(); ?>
        <?php     
             $row = 1;
    // if (($handle = fopen(get_stylesheet_directory_uri() ."/import.csv", "r")) !== FALSE) {
-    if (($handle = fopen(get_stylesheet_directory_uri() ."/import_complete_5_entries.csv", "r")) !== FALSE) {
+    if (($handle = fopen(get_stylesheet_directory_uri() ."/" .$upload_file_name , "r")) !== FALSE) {
    // if (($handle = fopen(get_stylesheet_directory_uri() ."/import_complete_test.csv", "r")) !== FALSE) {
         while ( ! feof($handle)) {
             ($data = fgetcsv($handle, 1000, ","));
@@ -43,7 +49,6 @@ get_header(); ?>
 
                 $csv_guest_val_arr = array(
                     "csv_guest_name" => $data[1], // NAME
-                    "csv_guest_email" => $data[2], // EMAIL
                     "csv_guest_address" => $data[18], // ADDRESS
                     "csv_guest_phone" => $data[19], // PHONE
                     "csv_guest_initial_deposit" => $data[17] ."|" . format_input($data[16],array("$",",")), // INITIAL DEPOSIT
@@ -65,8 +70,17 @@ get_header(); ?>
                     "csv_guest_total_num_children" => 0, // TOTAL NUMBER OF CHILDREN TODO ADD COLUMN TO SPREADSHEET
                     "csv_guest_invoice_for" =>  $data[36],  // INVOICE FOR (all, self)
                     "csv_air_service_rate_requested_per_guest" => format_input($data[28],array("$",",")),
-                    "csv_initial_deposit_date" => $data[17]
+                    "csv_initial_deposit_date" => $data[17],
+                    "csv_ny_flight_status" => $data[38]
                 );
+
+                /* Check if email field is valid */
+                   if(strpos($data[2],"@") !== FALSE ):
+
+                       $csv_guest_val_arr["csv_guest_email"] = $data[2]; // EMAIL
+                   else:
+                       $csv_guest_val_arr["csv_guest_email"] = '';
+                   endif;
 
                 $csv_guest_val_payment_arr = array();
 
@@ -312,9 +326,8 @@ get_header(); ?>
        {// Set Order Item Variables
            global $sample_order, $csv_guest_val_arr;
 
-           $hotel_product = wc_get_product(9);
-           //$airfare_product = wc_get_product(71);
-           //  $airport_transfers = wc_get_product(120);
+          // $hotel_product = wc_get_product(9);
+           $hotel_product = get_product_by_slug("Royalton Resort Package");
 
            $hotel_order_item = $sample_order->get_item($sample_order->add_product($hotel_product,1,array('total' => $csv_guest_val_arr["csv_guest_resort_total_for_all_guests"] )));
           // $sample_order->save();
@@ -386,6 +399,15 @@ get_header(); ?>
            // ADD AIR SERVICE RATE TO ORDER
            $sample_order->add_meta_data('air_service_rate_per_guest' , $csv_guest_val_arr["csv_air_service_rate_requested_per_guest"], true);
 
+           // ADD NY FLIGHT STATUS TO  ORDER
+           if ($csv_guest_val_arr["csv_ny_flight_status"] == ""):
+               $sample_order->add_meta_data('ny_flight_status' , "N/A", true);
+            else:
+                $sample_order->add_meta_data('ny_flight_status' , $csv_guest_val_arr["csv_ny_flight_status"], true);
+           endif;
+
+
+
            // ADD PAYMENTS
                 //Loop through payments array
                     $payment_counter = 0;
@@ -409,8 +431,8 @@ function add_airfare_product()
     global $sample_order, $csv_guest_val_arr;
     // FIND OUT IF USER WANTS AIRPORT TRANSFERS OR FLIGHT
 
-    $airfare_product = wc_get_product(71);
-
+    //$airfare_product = wc_get_product(71);
+    $airfare_product = get_product_by_slug("Airfare");
         //$sample_order->save();
 
     // Add correct Quantity and total
@@ -465,7 +487,8 @@ function add_airfare_product()
        {
            global $sample_order, $csv_guest_val_arr;
 
-           $airport_transfers_product = wc_get_product(120);
+           //$airport_transfers_product = wc_get_product(120);
+           $airport_transfers_product = get_product_by_slug("Airport Transfers");
 
            $airport_transfers_item = $sample_order->get_item($sample_order->add_product($airport_transfers_product));
            // ADD ORDER META
@@ -528,6 +551,23 @@ function add_airfare_product()
 
            return $output_val;
        } // END FUNCTION
+
+       function get_product_by_slug($slug){
+           $posts = get_posts(array(
+               'name' => $slug,
+               'posts_per_page' => 1,
+               'post_type' => 'product',
+               'post_status' => 'publish'
+           ));
+
+           if(! $posts ) {
+               throw new Exception("NoSuchPostBySpecifiedID");
+           }
+
+
+
+           return wc_get_product($posts[0]->ID);
+       }
        ?>
 
 
