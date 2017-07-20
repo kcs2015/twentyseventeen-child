@@ -261,7 +261,7 @@ do_action( 'wpo_wcpdf_before_document', $wpo_wcpdf->export->template_type, $wpo_
 
                 if ($resort_rsv_invoice_for == 'self'):
                     // DISPLAY GUEST NAME
-                    echo($curr_order->get_billing_first_name() );
+                    echo($curr_order->get_billing_first_name() ." " .$curr_order->get_billing_last_name());
                 elseif ($resort_rsv_invoice_for == 'all'):
                     // DISPLAY GUEST NAME AS WELL AS ALL OTHER GUEST NAMES
                     echo($curr_order->get_billing_first_name() ." " .$curr_order->get_billing_last_name() ."<br>" .$resort_rsv_room_guest_names_formatted);
