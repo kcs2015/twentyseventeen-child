@@ -305,16 +305,23 @@ do_action( 'wpo_wcpdf_before_document', $wpo_wcpdf->export->template_type, $wpo_
 
 
 
-                    $initial_payment_arr = explode("|",$rsv_info_initial_deposit);
-                    if (!empty($initial_payment_arr)): ?>
+                    $initial_payment_arr = explode("|",$rsv_info_initial_deposit); ?>
+
                         <tr class="bg-color-secondary">
-                            <td ><?php echo($initial_payment_arr[0]); ?> </td>
+                    <?php  if (empty($initial_payment_arr[0])): ?>
+                      <td > <?php echo("Initial Deposit"); ?> </td>
+                    <?php else: ?>
+                        <?php echo($initial_payment_arr[0]); ?>
+                    <?php endif; ?>
+
                             <td>$<?php echo(number_format (floatval($initial_payment_arr[1]),2)); ?>  </td>
                         </tr>
-                    <?php endif;
 
+                        <?php
                     // there are meta
-                    foreach( $rsv_info_payment_arr as $payment_num=> $payment_amt ):
+
+
+                        foreach( $rsv_info_payment_arr as $payment_num=> $payment_amt ):
 
                         // Get payment date
                         $rsv_payment_arr = explode("|",$payment_amt);
@@ -325,8 +332,11 @@ do_action( 'wpo_wcpdf_before_document', $wpo_wcpdf->export->template_type, $wpo_
                             <td ><?php echo($rsv_payment_arr[0]); ?> </td>
                             <td>$<?php echo(number_format (floatval($rsv_payment_arr[1]),2)); ?>  </td>
                         </tr>
-                    <?php   endforeach;
-                    
+
+
+                    <?php
+
+                        endforeach;
 
                     while ($invoice_start_num < count($invoice_due_date_arr)): ?>
                         <tr><td><?php echo($invoice_due_date_arr[$invoice_start_num]); ?></td>
