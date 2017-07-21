@@ -5,7 +5,7 @@ get_header();
 
 /* START UPLOAD */
 //$upload_file_name = 'guest_reservation_import.csv';
-$upload_file_name = 'guest_reservation_import-part2.csv';
+//$upload_file_name = 'import_complete-missing.csv';
 
 ?>
 
@@ -188,7 +188,7 @@ $upload_file_name = 'guest_reservation_import-part2.csv';
                 //USERNAME = FIRST NAME LAST INITIAL
                 $curr_guest_user_name = strtolower($guest_first_name) .strtolower(substr($guest_last_name,0,1));
                 $curr_guest_user_id = wp_create_user( $curr_guest_user_name, $random_password, $csv_guest_val_arr["csv_guest_email"] );
-                $user_id = wp_update_user( array( 'ID' => $curr_guest_user_id, 'display_name' => $guest_first_name .' ' .$guest_last_name , first_name => $guest_first_name, last_name => $guest_last_name) );
+                $user_id = wp_update_user( array( 'ID' => $curr_guest_user_id, 'display_name' => $guest_first_name .' ' .$guest_last_name , 'first_name' => $guest_first_name, 'last_name' => $guest_last_name) );
             }
 
                 // Create a new order
@@ -419,7 +419,7 @@ $upload_file_name = 'guest_reservation_import-part2.csv';
                         endif;
                     endforeach;
             // Add number of payments due
-           $sample_order->add_meta_data('num_payments_due' , 4, true);
+           $sample_order->add_meta_data('num_payments_due' , 3, true);
            $sample_order->add_meta_data('invoice_date' , "June 30, 2017", true);
 
            $sample_order->save_meta_data();
