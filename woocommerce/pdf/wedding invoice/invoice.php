@@ -311,7 +311,7 @@ do_action( 'wpo_wcpdf_before_document', $wpo_wcpdf->export->template_type, $wpo_
                     <?php  if (empty($initial_payment_arr[0])): ?>
                       <td > <?php echo("Initial Deposit"); ?> </td>
                     <?php else: ?>
-                        <?php echo($initial_payment_arr[0]); ?>
+                            <td >  <?php echo($initial_payment_arr[0]); ?></td>
                     <?php endif; ?>
 
                             <td>$<?php echo(number_format (floatval($initial_payment_arr[1]),2)); ?>  </td>
