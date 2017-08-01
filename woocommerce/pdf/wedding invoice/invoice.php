@@ -75,6 +75,22 @@ $rsv_info_invoice_remarks = get_post_meta( $curr_order->ID, 'invoice_remarks', T
 // REMAINING PAYMENTS
 $rsv_info_remaining = get_post_meta( $curr_order->ID, 'remaining_payments', TRUE);
 
+
+// GET SEPARATE INVOICE NAME
+$rsv_info_sep_bkdn_name = get_post_meta( $curr_order->ID, 'sep_bkdn_name', TRUE);
+
+// GET SEPARATE INVOICE VARIABLES
+if (!empty($rsv_info_sep_bkdn_name)):
+    $rsv_info_sep_bkdn_num_nights = get_post_meta( $curr_order->ID, 'sep_bkdn_num_nights', TRUE);
+    $rsv_info_sep_bkdn_resort_rate_per_night = get_post_meta( $curr_order->ID, 'sep_bkdn_resort_rate_per_night', TRUE);
+    $rsv_info_sep_bkdn_resort_total = get_post_meta( $curr_order->ID, 'sep_bkdn_resort_total', TRUE);
+    $rsv_info_sep_bkdn_type = get_post_meta( $curr_order->ID, 'sep_bkdn_type', TRUE);
+    $rsv_info_sep_bkdn_air_service_rate = get_post_meta( $curr_order->ID, 'sep_bkdn_air_service_rate', TRUE);
+    $rsv_info_sep_bkdn_air_service_requested = get_post_meta( $curr_order->ID, 'sep_bkdn_air_service_requested', TRUE);
+endif;
+
+
+
 // Calculate total payments
 
 $payment_arr = explode("|",$rsv_info_initial_deposit);
@@ -512,7 +528,22 @@ do_action( 'wpo_wcpdf_before_document', $wpo_wcpdf->export->template_type, $wpo_
             <td>
                 <table id="per-guest-breakdown" class="invoice-large-info-table float-right">
                     <tr class="bg-color-primary">
-                    <th>Package Breakdown Per Guest </th>
+                    <th>Package Breakdown
+
+                        <?php if (isset($rsv_info_sep_bkdn_type) ) {
+
+                            if ($rsv_info_sep_bkdn_type == "child"):
+                                echo("Per Adult");
+                            elseif ($rsv_info_sep_bkdn_type == "other"): ?>
+                                For <?php echo($curr_order->get_billing_first_name() ." " .$curr_order->get_billing_last_name()); ?>
+                            <?php else: ?>
+                                Guest
+                            <?php endif;
+                        } else { ?>
+
+                            Per Guest <?php
+                        }?>
+                         </th>
                     <th>Remarks</th>
                     </tr>
 
@@ -550,7 +581,70 @@ do_action( 'wpo_wcpdf_before_document', $wpo_wcpdf->export->template_type, $wpo_
 
 
     </table>
+<?php
+    // If there is a separate breakdown variable found in order then show html table
 
+if (!empty($rsv_info_sep_bkdn_name)):
+
+    ?>
+    <table class="invoice-large-info-table-wrapper">
+        <tr>
+
+            <td>
+
+            </td>
+            <td>
+                <table id="per-guest-breakdown" class="invoice-large-info-table float-right">
+                    <tr class="bg-color-primary">
+                        <th>Package Breakdown For: <?php echo($rsv_info_sep_bkdn_name ); ?> </th>
+                        <th>Remarks</th>
+                    </tr>
+
+                    <tr><td>Resort Rate Per Night</td>
+                        <td>$<?php echo (number_format (floatval($rsv_info_sep_bkdn_resort_rate_per_night),2)); ?>
+                        </td>
+                    </tr><tr><td>Number of Nights</td>
+                        <td><?php echo ($rsv_info_sep_bkdn_num_nights); ?></td>
+                    </tr>
+                    <tr><td>Resort Total</td>
+                        <td>$<?php echo (number_format (floatval($rsv_info_sep_bkdn_resort_total),2)); ?></td>
+                    </tr>
+                    <?php if($rsv_info_sep_bkdn_air_service_requested != "none"): ?>
+                        <tr><td><?php //TODO
+
+                                $sep_bkdn_air_service_requested_html = '';
+                                if($rsv_info_sep_bkdn_air_service_requested == "flight"):
+                                    $sep_bkdn_air_service_requested_html = "Flight";
+                                elseif($rsv_info_sep_bkdn_air_service_requested == "transfers"):
+                                    $sep_bkdn_air_service_requested_html = "Airport Transfers ";
+                                endif;
+                                echo($sep_bkdn_air_service_requested_html); ?> Total</td>
+                            <td>$<?php echo (number_format (floatval($rsv_info_sep_bkdn_air_service_rate),2)); ?></td>
+                        </tr>
+                    <?php else: ?>
+                        <tr>
+                            <td>Airfare / Airport Transfers Total</td>
+                            <td>N/A</td>
+                        </tr>
+                    <?php endif; ?>
+                    <tr><td>Resort <?php if($rsv_info_sep_bkdn_air_service_requested != "none"): echo(" + " .$sep_bkdn_air_service_requested_html); endif ?> Total</td>
+                        <td>$<?php
+                            // Get flight rate
+
+                            // Get resort rate per guest
+                            $sep_bkdn_invoice_total_per_guest = $rsv_info_sep_bkdn_air_service_rate + $rsv_info_sep_bkdn_resort_total;
+
+                            echo (number_format (floatval($sep_bkdn_invoice_total_per_guest),2)); ?></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+
+    </table>
+    <?php
+endif;
+?>
 
 </div>
 <?php
