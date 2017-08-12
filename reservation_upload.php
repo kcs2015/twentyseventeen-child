@@ -4,6 +4,7 @@
 get_header();
 
 /* START UPLOAD */
+$upload_file_name = '';
 //$upload_file_name = 'guest_reservation_import.csv';
 //$upload_file_name = 'import_complete-missing.csv';
 

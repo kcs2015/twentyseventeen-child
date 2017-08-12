@@ -365,87 +365,23 @@ do_action( 'wpo_wcpdf_before_document', $wpo_wcpdf->export->template_type, $wpo_
 
                         endforeach;
 
-                        $manual_payment_due_ctr = 0;
-
-                    while ($invoice_start_num < count($invoice_due_date_arr)):
-                        // CHECK IF MANUAL PAYMENT WAS ENTERED WAS SET
-
-                        // MANUAL PAYMENT META =
-                        $curr_manual_payment_due = get_post_meta( $curr_order->ID, 'manual_pymt_due_' .$manual_payment_due_ctr, TRUE);
-
-
-                        ?>
-
+                    while ($invoice_start_num < count($invoice_due_date_arr)): ?>
                         <tr><td><?php echo($invoice_due_date_arr[$invoice_start_num]); ?></td>
                             <?php
                             if ($invoice_due_date_arr[$invoice_start_num] == "8/15/2017" ) { ?>
-                                <td>$<?php
-
-                                    if (!empty($curr_manual_payment_due)):
-                                        // If manual payment found
-                                        echo(number_format(floatval($curr_manual_payment_due) , 2));
-                                    else:
-
-                                        echo(number_format(floatval($remaining_payments) / 2, 2));
-
-                                    endif; ?></td>
+                                <td>$<?php echo(number_format(floatval($remaining_payments) / 2, 2)); ?></td>
 
                                 <?php
                             }elseif ($invoice_due_date_arr[$invoice_start_num] == "8/30/2017" && $num_payments_due == 3) { ?>
-                                <td>$<?php
-
-                                if (!empty($curr_manual_payment_due)):
-                                    // If manual payment found
-                                    echo(number_format(floatval($curr_manual_payment_due), 2));
-                                else:
-
-                                echo(number_format(floatval($remaining_payments) /2, 2));
-
-                                endif;
-
-                                ?></td> <?php
+                                <td>$<?php echo(number_format(floatval($remaining_payments) /2, 2)); ?></td> <?php
 
                             }else { ?>
-                                <td>$<?php
-
-                                if (!empty($curr_manual_payment_due)):
-                                    // If manual payment found
-                                    echo(number_format(floatval($curr_manual_payment_due), 2));
-                                else:
-                                    echo(number_format(floatval($current_payment_due), 2));
-                                endif;
-
-                                ?> </td>  <?php
+                                <td>$<?php echo(number_format(floatval($current_payment_due), 2)); ?> </td>  <?php
                             } ?>
 
                         </tr>
                         <?php  $invoice_start_num++;
-                            $manual_payment_due_ctr++;
-
-                    endwhile;
-
-                    /*
-                        BEFORE MANUAL PAYMENT DUE
-
-                        while ($invoice_start_num < count($invoice_due_date_arr)): ?>
-                            <tr><td><?php echo($invoice_due_date_arr[$invoice_start_num]); ?></td>
-                                <?php
-                                if ($invoice_due_date_arr[$invoice_start_num] == "8/15/2017" ) { ?>
-                                    <td>$<?php echo(number_format(floatval($remaining_payments) / 2, 2)); ?></td>
-
-                                    <?php
-                                }elseif ($invoice_due_date_arr[$invoice_start_num] == "8/30/2017" && $num_payments_due == 3) { ?>
-                                    <td>$<?php echo(number_format(floatval($remaining_payments) /2, 2)); ?></td> <?php
-
-                                }else { ?>
-                                    <td>$<?php echo(number_format(floatval($current_payment_due), 2)); ?> </td>  <?php
-                                } ?>
-
-                            </tr>
-                            <?php  $invoice_start_num++;
-                        endwhile;           */
-
-                    ?>
+                    endwhile;             ?>
 
                 </table>
 
