@@ -366,6 +366,7 @@ do_action( 'wpo_wcpdf_before_document', $wpo_wcpdf->export->template_type, $wpo_
                         endforeach;
 
                         $manual_payment_due_ctr = 0;
+                        $manual_curr_pymt_due = 0;
 
                     while ($invoice_start_num < count($invoice_due_date_arr)):
                         // CHECK IF MANUAL PAYMENT WAS ENTERED WAS SET
@@ -373,6 +374,13 @@ do_action( 'wpo_wcpdf_before_document', $wpo_wcpdf->export->template_type, $wpo_
                         // MANUAL PAYMENT META =
                         $curr_manual_payment_due = get_post_meta( $curr_order->ID, 'manual_pymt_due_' .$manual_payment_due_ctr, TRUE);
 
+
+                            // SET MANUAL_CURR_PYMT_DUE TO FIRST MANUAL PAYMENT VALUE
+                            if (!empty($curr_manual_payment_due) && $manual_payment_due_ctr == 0):
+                                // If manual payment found and its the first value
+                                $manual_curr_pymt_due =  $curr_manual_payment_due;
+
+                            endif;
 
                         ?>
 
@@ -507,10 +515,29 @@ do_action( 'wpo_wcpdf_before_document', $wpo_wcpdf->export->template_type, $wpo_
                 <table class="due-date-info-table ">
                     <tbody>
                     <tr><td>Total Due:</td><td>$<?php
-                                                      if ($current_payment_due_by_date == "8/15/2017" ):
-                                echo(number_format (floatval($current_payment_due_split_amt ),2));
+                            if ($current_payment_due_by_date == "8/15/2017" ):
+
+                                // ECHO MANUAL_CURR_PYMT_DUE TO CURR PAYMENT DUE
+                                if (!empty($manual_curr_pymt_due) ):
+                                    echo(number_format (floatval($manual_curr_pymt_due ),2));
+                                else:
+                                    echo(number_format (floatval($current_payment_due_split_amt ),2));
+
+                                endif;
+
+
                             else:
-                                echo(number_format (floatval($current_payment_due),2));
+
+                                // ECHO MANUAL_CURR_PYMT_DUE TO CURR PAYMENT DUE
+                                if (!empty($manual_curr_pymt_due) ):
+                                    echo(number_format (floatval($manual_curr_pymt_due ),2));
+                                else:
+                                    echo(number_format (floatval($current_payment_due),2));
+
+                                endif;
+
+
+
                             endif;
 
                             ?>
